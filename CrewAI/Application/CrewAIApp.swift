@@ -11,7 +11,7 @@ import SwiftUI
 struct CrewAIApp: App {
     var body: some Scene {
         WindowGroup {
-            // Main View
+            HomeView()
         }
     }
 }

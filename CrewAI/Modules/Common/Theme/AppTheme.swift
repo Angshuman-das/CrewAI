@@ -23,9 +23,17 @@ public class AppTheme: ObservableObject {
 }
 
 public struct AppColors {
-    public static let primary = Color(.blue)
+    
     public static func background(for colorScheme: ColorScheme) -> Color {
         colorScheme == .dark ? .black : .white
+    }
+    
+    public static func primaryText(for colorScheme: ColorScheme) -> Color {
+        colorScheme == .dark ? .white : .black
+    }
+    
+    public static func secondaryText(for colorScheme: ColorScheme) -> Color {
+        .secondary
     }
 }
 

@@ -50,12 +50,12 @@ extension ChatListItemView {
     private func AvatarView(avatarName: String) -> some View {
         ZStack {
             Circle()
-                .fill(AppColors.background(for: .dark))
+                .fill(AppColors.primaryForeground(for: colorScheme))
                 .frame(width: 52, height: 52)
             
             Image(systemName: avatarName)
                 .font(AppTypography.title3)
-                .foregroundStyle(.white)
+                .foregroundStyle(AppColors.background(for: colorScheme))
         }
     }
 }

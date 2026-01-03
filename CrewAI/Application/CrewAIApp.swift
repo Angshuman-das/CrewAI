@@ -9,9 +9,11 @@ import SwiftUI
 
 @main
 struct CrewAIApp: App {
+    @StateObject private var coordinator = AppCoordinator()
+    
     var body: some Scene {
         WindowGroup {
-            HomeView(viewModel: HomeViewModel())
+            ThemedAppView(coordinator: coordinator)
         }
     }
 }

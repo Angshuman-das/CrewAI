@@ -22,8 +22,14 @@ struct HomeView: View {
                 .ignoresSafeArea()
             
             ContentView()
-                
-            Toggle("isDark", isOn: $theme.isDarkMode)
+        }
+        .navigationTitle("Chats")
+        .navigationBarTitleDisplayMode(.large)
+        .toolbar(content: {
+            ToolbarItemToggleButton()
+        })
+        .onAppear {
+            viewModel.loadChats()
         }
     }
 }
@@ -33,9 +39,13 @@ extension HomeView {
         List {
             ForEach(viewModel.chats) { chat in
                 ChatListItemView(chat: chat)
+                    .contentShape(Rectangle())
+                    .onTapGesture {
+                        viewModel.selectChat(chat)
+                    }
                     .swipeActions(edge: .trailing, allowsFullSwipe: false) {
                         Button(role: .destructive) {
-                            //
+                            viewModel.deleteChat(chat)
                         } label: {
                             Label("Delete", systemImage: "trash")
                         }
@@ -48,7 +58,7 @@ extension HomeView {
     
     private func NewChatButton() -> some View {
         Button {
-            //
+            viewModel.createNewChat()
         } label: {
             Label("New Chat", systemImage: "square.and.pencil")
                 .font(AppTypography.headline)
@@ -68,7 +78,7 @@ extension HomeView {
                 title: "No conversation",
                 subtitle: "Start a new chat to begin your conversation with AI",
                 actionTitle: "New Chat") {
-                    //
+                    viewModel.createNewChat()
                 }
         } else {
             ChatList()
@@ -82,6 +92,20 @@ extension HomeView {
                 }
             }
         }
+    }
+    
+    private func ToolbarItemToggleButton() -> some ToolbarContent {
+        ToolbarItem(placement: .navigationBarTrailing) {
+            HStack(spacing: AppSpacing.md) {
+                Button(action: {
+                    theme.toggleTheme()
+                }) {
+                    Image(systemName: theme.isDarkMode ? "sun.max.fill" : "moon.fill")
+                        .font(.system(size: 20))
+                            .foregroundColor(AppColors.primaryText(for: colorScheme))
+                    }
+                }
+            }
     }
 }
 

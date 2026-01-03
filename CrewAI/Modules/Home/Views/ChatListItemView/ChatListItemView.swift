@@ -31,7 +31,7 @@ extension ChatListItemView {
                 
                 Spacer()
                 
-                Text("\(chatData.lastMessageTimestamp)")
+                Text(chatData.lastMessageTimestamp.toDate.smartFormat())
                     .font(AppTypography.caption)
                     .foregroundStyle(AppColors.secondaryText(for: colorScheme))
                 

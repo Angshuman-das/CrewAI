@@ -1,22 +1,26 @@
 //
-//  Chat.swift
+//  ChatEntity.swift
 //  CrewAI
 //
 //  Created by Angshuman on 03/01/26.
 //
 
 import Foundation
+import SwiftData
 
-public struct Chat: Identifiable, Equatable {
-    public let id: String
-    public var title: String
-    public var lastMessage: String
-    public var lastMessageTimestamp: TimeInterval
-    public let createdAt: TimeInterval
-    public var updatedAt: TimeInterval
+@Model
+final class ChatEntity {
+    @Attribute(.unique) var id: String
+    var title: String
+    var lastMessage: String
+    var lastMessageTimestamp: TimeInterval
+    var createdAt: TimeInterval
+    var updatedAt: TimeInterval
     
+    @Relationship(deleteRule: .cascade, inverse: \MessageEntity.chat)
+    var messages: [MessageEntity]?
     
-    public init(
+    init(
         id: String = UUID.generateString(),
         title: String = "New Chat",
         lastMessage: String = "",
@@ -30,14 +34,5 @@ public struct Chat: Identifiable, Equatable {
         self.lastMessageTimestamp = lastMessageTimestamp
         self.createdAt = createdAt
         self.updatedAt = updatedAt
-    }
-    
-    init(from entity: ChatEntity) {
-        self.id = entity.id
-        self.title = entity.title
-        self.lastMessage = entity.lastMessage
-        self.lastMessageTimestamp = entity.lastMessageTimestamp
-        self.createdAt = entity.createdAt
-        self.updatedAt = entity.updatedAt
     }
 }

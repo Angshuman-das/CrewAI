@@ -11,4 +11,5 @@ import Combine
 class HomeViewModel: ObservableObject {
     @Published var chats: [Chat] = []
     
+    init() {}
 }

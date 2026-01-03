@@ -22,6 +22,8 @@ struct HomeView: View {
                 .ignoresSafeArea()
             
             ContentView()
+                
+            Toggle("isDark", isOn: $theme.isDarkMode)
         }
     }
 }

@@ -69,6 +69,8 @@ class ChatDetailsViewModel: ObservableObject {
     private let dataManager: ChatDetailsDataManagerProtocol
     private var userMessagesSinceLastAIResponse: Int = 0
     private var cancellables = Set<AnyCancellable>()
+    private var aiResponseTimer: Timer?
+    private let debounceDelay: TimeInterval = 2.5
     
     var onBack: (() -> Void)?
     
@@ -116,21 +118,29 @@ class ChatDetailsViewModel: ObservableObject {
         
         loadMessages()
         
-        dataManager.generateAIResponse(
-            for: chatId,
-            userMessagesSinceLastAIResponse: userMessagesSinceLastAIResponse,
-            onThinkingStart: { [weak self] in
-                DispatchQueue.main.async {
-                    self?.isAgentThinking = true
+        // Cancel existing timer to reset debounce
+        aiResponseTimer?.invalidate()
+        
+        // Start new timer that triggers AI response after user inactivity
+        aiResponseTimer = Timer.scheduledTimer(withTimeInterval: debounceDelay, repeats: false) { [weak self] _ in
+            guard let self = self else { return }
+            
+            self.dataManager.generateAIResponse(
+                for: self.chatId,
+                userMessagesSinceLastAIResponse: self.userMessagesSinceLastAIResponse,
+                onThinkingStart: { [weak self] in
+                    DispatchQueue.main.async {
+                        self?.isAgentThinking = true
+                    }
+                },
+                onThinkingEnd: { [weak self] in
+                    DispatchQueue.main.async {
+                        self?.isAgentThinking = false
+                        self?.loadMessages()
+                    }
                 }
-            },
-            onThinkingEnd: { [weak self] in
-                DispatchQueue.main.async {
-                    self?.isAgentThinking = false
-                    self?.loadMessages()
-                }
-            }
-        )
+            )
+        }
     }
     
     func showImagePickerWithSource(_ sourceType: UIImagePickerController.SourceType) {

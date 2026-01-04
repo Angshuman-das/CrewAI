@@ -12,6 +12,7 @@ struct ChatDetailView: View {
     @Environment(\.colorScheme) var colorScheme
     @State private var showAttachmentOptions = false
     @State private var keyboardHeight: CGFloat = 0
+    @FocusState private var isInputFocused: Bool
 
     init(viewModel: ChatDetailsViewModel) {
         _viewModel = StateObject(wrappedValue: viewModel)
@@ -49,6 +50,9 @@ extension ChatDetailView {
                 .padding(.vertical, AppSpacing.md)
             }
             .apply(scrollBehaviorModifiers(proxy: proxy))
+            .onTapGesture {
+                isInputFocused = false
+            }
         }
     }
     
@@ -83,6 +87,7 @@ extension ChatDetailView {
             text: $viewModel.inputText,
             selectedImage: $viewModel.selectedImage,
             colorScheme: _colorScheme,
+            isInputFocused: $isInputFocused,
             canSend: viewModel.canSendMessage
         ) {
             showAttachmentOptions = true

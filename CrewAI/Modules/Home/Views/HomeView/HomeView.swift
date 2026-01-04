@@ -11,6 +11,8 @@ struct HomeView: View {
     @StateObject private var viewModel: HomeViewModel
     @EnvironmentObject private var theme: AppTheme
     @Environment(\.colorScheme) var colorScheme
+    @State private var chatToDelete: Chat?
+    @State private var showDeleteAlert = false
     
     init(viewModel: HomeViewModel) {
         _viewModel = StateObject(wrappedValue: viewModel)
@@ -28,6 +30,17 @@ struct HomeView: View {
         .toolbar(content: {
             ToolbarItemToggleButton()
         })
+        .alert("Delete Chat", isPresented: $showDeleteAlert, presenting: chatToDelete) { chat in
+            Button("Delete", role: .destructive) {
+                viewModel.deleteChat(chat)
+                chatToDelete = nil
+            }
+            Button("Cancel", role: .cancel) {
+                chatToDelete = nil
+            }
+        } message: { chat in
+            Text("Are you sure you want to delete \"\(chat.title)\"? This action cannot be undone.")
+        }
         .onAppear {
             viewModel.loadChats()
         }
@@ -45,7 +58,8 @@ extension HomeView {
                     }
                     .swipeActions(edge: .trailing, allowsFullSwipe: false) {
                         Button(role: .destructive) {
-                            viewModel.deleteChat(chat)
+                            chatToDelete = chat
+                            showDeleteAlert = true
                         } label: {
                             Label("Delete", systemImage: "trash")
                         }

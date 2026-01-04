@@ -12,6 +12,7 @@ struct MessageInputView: View {
     @Binding var selectedImage: UIImage?
     @EnvironmentObject private var theme: AppTheme
     @Environment(\.colorScheme) var colorScheme
+    @FocusState.Binding var isInputFocused: Bool
     let canSend: Bool
     let onAttachment: () -> Void
     let onSend: () -> Void
@@ -59,6 +60,7 @@ extension MessageInputView {
             
     
             TextEditor(text: $text)
+                .focused($isInputFocused)
                 .clipShape(RoundedRectangle(cornerRadius: 10))
                     .overlay(
                         RoundedRectangle(cornerRadius: 10)
@@ -99,8 +101,9 @@ extension MessageInputView {
 #Preview {
     @Previewable @State var text: String = ""
     @Previewable @State var selectedImage: UIImage?
+    @Previewable @FocusState var isInputFocused: Bool
     @Previewable @StateObject var theme: AppTheme = AppTheme.shared
-    MessageInputView(text: $text, selectedImage: $selectedImage, canSend: false, onAttachment: {}, onSend: {})
+    MessageInputView(text: $text, selectedImage: $selectedImage, isInputFocused: $isInputFocused, canSend: false, onAttachment: {}, onSend: {})
         .environmentObject(theme)
         .preferredColorScheme(theme.isDarkMode ? .dark : .light)
 }

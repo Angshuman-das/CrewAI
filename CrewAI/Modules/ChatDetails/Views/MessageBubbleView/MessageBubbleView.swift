@@ -74,6 +74,23 @@ extension MessageBubbleView {
                     .onTapGesture {
                         onImageTap(image)
                     }
+            } else {
+                // Placeholder when image fails to load
+                ZStack {
+                    RoundedRectangle(cornerRadius: AppCornerRadius.md)
+                        .fill(AppColors.surfaceSecondary(for: colorScheme))
+                        .frame(width: 250, height: 200)
+                    
+                    VStack(spacing: AppSpacing.sm) {
+                        Image(systemName: "photo")
+                            .font(.system(size: 48))
+                            .foregroundColor(AppColors.secondaryText(for: colorScheme))
+                        
+                        Text("Image unavailable")
+                            .font(AppTypography.caption)
+                            .foregroundColor(AppColors.secondaryText(for: colorScheme))
+                    }
+                }
             }
             
             Text(FileManagerHelper.formatFileSize(file.fileSize))

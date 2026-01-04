@@ -65,7 +65,22 @@ extension MessageBubbleView {
     private func fileMessageContent(file: MessageFile) -> some View {
         VStack(alignment: message.sender == .user ? .trailing : .leading, spacing: AppSpacing.sm) {
             
-            if let image = FileManagerHelper.loadImage(from: file.path) {
+            // Try thumbnail first, then full image
+            if let thumbnailPath = file.thumbnail?.path,
+               let thumbnailImage = FileManagerHelper.loadImage(from: thumbnailPath) {
+                Image(uiImage: thumbnailImage)
+                    .resizable()
+                    .aspectRatio(contentMode: .fill)
+                    .frame(maxWidth: 250, maxHeight: 250)
+                    .clipShape(RoundedRectangle(cornerRadius: AppCornerRadius.md))
+                    .onTapGesture {
+                        // Load and show full image on tap
+                        if let fullImage = FileManagerHelper.loadImage(from: file.path) {
+                            onImageTap(fullImage)
+                        }
+                    }
+            } else if let image = FileManagerHelper.loadImage(from: file.path) {
+                // Fallback to full image if no thumbnail
                 Image(uiImage: image)
                     .resizable()
                     .aspectRatio(contentMode: .fill)

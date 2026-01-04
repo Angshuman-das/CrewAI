@@ -42,7 +42,7 @@ extension ChatDetailView {
     private var messagesScrollView: some View {
         ScrollViewReader { proxy in
             ScrollView {
-                LazyVStack(spacing: AppSpacing.sm) {
+                LazyVStack(alignment: .leading, spacing: AppSpacing.sm) {
                     messagesList
                     typingIndicator
                     bottomSpacer

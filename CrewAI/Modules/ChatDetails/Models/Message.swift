@@ -47,7 +47,7 @@ public struct Message: Identifiable, Equatable {
     public let timestamp: TimeInterval
     
     public init(
-        id: String,
+        id: String = UUID.generateString(),
         chatId: String,
         message: String,
         type: MessageType = .text,

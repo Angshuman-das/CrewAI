@@ -23,7 +23,8 @@ public class FileManagerHelper {
         
         do {
             try data.write(to: fileURL)
-            return fileURL.path
+            // Return just the filename, not the full path
+            return fileName
         } catch {
             print("Error saving image: \(error)")
             return nil
@@ -31,14 +32,35 @@ public class FileManagerHelper {
     }
     
     public static func loadImage(from path: String) -> UIImage? {
-        guard FileManager.default.fileExists(atPath: path) else { return nil }
-        return UIImage(contentsOfFile: path)
+        // If path is just a filename, construct full path
+        let fullPath: String
+        if path.contains("/") {
+            // It's already a full path
+            fullPath = path
+        } else {
+            // It's just a filename, construct full path
+            fullPath = documentsDirectory.appendingPathComponent(path).path
+        }
+        
+        guard FileManager.default.fileExists(atPath: fullPath) else {
+            print("Image file not found at: \(fullPath)")
+            return nil
+        }
+        return UIImage(contentsOfFile: fullPath)
     }
     
     public static func getFileSize(at path: String) -> Int64 {
-        guard FileManager.default.fileExists(atPath: path) else { return 0 }
+        // If path is just a filename, construct full path
+        let fullPath: String
+        if path.contains("/") {
+            fullPath = path
+        } else {
+            fullPath = documentsDirectory.appendingPathComponent(path).path
+        }
+        
+        guard FileManager.default.fileExists(atPath: fullPath) else { return 0 }
         do {
-            let attributes = try FileManager.default.attributesOfItem(atPath: path)
+            let attributes = try FileManager.default.attributesOfItem(atPath: fullPath)
             return attributes[.size] as? Int64 ?? 0
         } catch {
             return 0
@@ -65,7 +87,15 @@ public class FileManagerHelper {
     }
     
     public static func deleteFile(at path: String) {
-        guard FileManager.default.fileExists(atPath: path) else { return }
-        try? FileManager.default.removeItem(atPath: path)
+        // If path is just a filename, construct full path
+        let fullPath: String
+        if path.contains("/") {
+            fullPath = path
+        } else {
+            fullPath = documentsDirectory.appendingPathComponent(path).path
+        }
+        
+        guard FileManager.default.fileExists(atPath: fullPath) else { return }
+        try? FileManager.default.removeItem(atPath: fullPath)
     }
 }

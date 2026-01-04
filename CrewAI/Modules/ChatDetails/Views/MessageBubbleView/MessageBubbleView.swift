@@ -9,6 +9,7 @@ import SwiftUI
 
 struct MessageBubbleView: View {
     let message: Message
+    let onImageTap: (UIImage) -> Void
     @Environment(\.colorScheme) var colorScheme
     
     var body: some View {
@@ -71,7 +72,7 @@ extension MessageBubbleView {
                     .frame(maxWidth: 250, maxHeight: 250)
                     .clipShape(RoundedRectangle(cornerRadius: AppCornerRadius.md))
                     .onTapGesture {
-                        //
+                        onImageTap(image)
                     }
             }
             
@@ -104,5 +105,5 @@ extension MessageBubbleView {
 
 #Preview {
     @Previewable var message: Message = Message(id: UUID.generateString(), chatId: UUID.generateString(), message: "Please help me", sender: .user, timestamp: Date.timeIntervalSinceReferenceDate)
-    MessageBubbleView(message: message)
+    MessageBubbleView(message: message, onImageTap: {_ in })
 }

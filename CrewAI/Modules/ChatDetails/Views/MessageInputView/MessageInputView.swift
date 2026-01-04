@@ -9,19 +9,27 @@ import SwiftUI
 
 struct MessageInputView: View {
     @Binding var text: String
+    @Binding var selectedImage: UIImage?
     @EnvironmentObject private var theme: AppTheme
     @Environment(\.colorScheme) var colorScheme
     let canSend: Bool
+    let onAttachment: () -> Void
     let onSend: () -> Void
     
     var body: some View {
-        HStack(alignment: .center) {
-            ImageSelectionButton()
+        VStack {
+            if let image = selectedImage {
+                imagePreview(image)
+            }
             
-            ChatTextFeildView()
-            
-            SendButton(isDisabled: !canSend, action: onSend)
-                .padding(.bottom, AppSpacing.sm)
+            HStack(alignment: .center) {
+                ImageSelectionButton()
+                
+                ChatTextFeildView()
+                
+                SendButton(isDisabled: !canSend, action: onSend)
+                    .padding(.bottom, AppSpacing.sm)
+            }
         }
         .padding(AppSpacing.md)
         .background(AppColors.surfaceSecondary(for: colorScheme))
@@ -31,7 +39,7 @@ struct MessageInputView: View {
 extension MessageInputView {
     private func ImageSelectionButton() -> some View {
         Button(action: {
-            //
+            onAttachment()
         }) {
             Image(systemName: "photo")
                 .font(AppTypography.title)
@@ -64,12 +72,35 @@ extension MessageInputView {
                 .scrollContentBackground(.hidden)
         }
     }
+    
+    private func imagePreview(_ image: UIImage) -> some View {
+        HStack {
+            Image(uiImage: image)
+                .resizable()
+                .aspectRatio(contentMode: .fill)
+                .frame(width: 80, height: 80)
+                .clipShape(RoundedRectangle(cornerRadius: AppCornerRadius.sm))
+            
+            Spacer()
+            
+            Button(action: {
+                selectedImage = nil
+            }) {
+                Image(systemName: "xmark.circle.fill")
+                    .font(.system(size: 24))
+                    .foregroundColor(.gray)
+            }
+        }
+        .padding(AppSpacing.md)
+        .background(AppColors.surfaceSecondary(for: colorScheme))
+    }
 }
 
 #Preview {
     @Previewable @State var text: String = ""
+    @Previewable @State var selectedImage: UIImage?
     @Previewable @StateObject var theme: AppTheme = AppTheme.shared
-    MessageInputView(text: $text, canSend: false, onSend: {})
+    MessageInputView(text: $text, selectedImage: $selectedImage, canSend: false, onAttachment: {}, onSend: {})
         .environmentObject(theme)
         .preferredColorScheme(theme.isDarkMode ? .dark : .light)
 }

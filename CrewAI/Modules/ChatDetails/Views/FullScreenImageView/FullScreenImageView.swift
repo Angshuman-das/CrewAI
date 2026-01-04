@@ -86,13 +86,6 @@ struct FullscreenImageView: View {
     }
 }
 
-extension FullscreenImageView {
-    func magnificationGesture() {
-        
-    }
-}
-
-
 #Preview {
     FullscreenImageView(image: UIImage(named: "testImage")!, onDismiss: {})
 }

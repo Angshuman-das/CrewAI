@@ -46,3 +46,12 @@ struct ImagePickerView: UIViewControllerRepresentable {
         }
     }
 }
+
+#Preview {
+    @Previewable @State var isPresented = true
+    @Previewable @State var selectedImage: UIImage?
+    
+    Text("ImagePickerView requires UIKit - preview not available")
+        .foregroundColor(.secondary)
+        .padding()
+}

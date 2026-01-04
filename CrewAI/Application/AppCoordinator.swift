@@ -18,11 +18,11 @@ struct ThemedAppView: View {
     
     var body: some View {
         NavigationStack(path: $coordinator.navigationPath) {
-            HomeView(viewModel: coordinator.homeViewModel)
+            coordinator.homeCoordinator.start()
                 .navigationDestination(for: NavigationDestination.self) { destination in
                     switch destination {
                     case .chatDetails(let chatId):
-                        EmptyView() // T.B.D
+                        coordinator.chatDetailsCoordinator.start(chatId: chatId)
                     }
                 }
         }
@@ -34,22 +34,23 @@ struct ThemedAppView: View {
 public class AppCoordinator: ObservableObject {
     @Published var navigationPath = NavigationPath()
     
-    let homeViewModel: HomeViewModel
+    let homeCoordinator: HomeCoordinator
+    let chatDetailsCoordinator: ChatDetailsCoordinator
     
     public init() {
-        let homeDataManager = HomeDataManager()
-        self.homeViewModel = HomeViewModel(dataManager: homeDataManager)
+        self.homeCoordinator = HomeCoordinator()
+        self.chatDetailsCoordinator = ChatDetailsCoordinator()
         
-        setupNavigationCallbacks()
+        setupCoordinatorCallbacks()
     }
     
-    private func setupNavigationCallbacks() {
-        homeViewModel.onChatSelected = { [weak self] chatId in
+    private func setupCoordinatorCallbacks() {
+        homeCoordinator.setOnChatSelected { [weak self] chatId in
             self?.navigateToChatDetails(chatId: chatId)
         }
         
-        homeViewModel.onNewChatCreated = { [weak self] chatId in
-            self?.navigateToChatDetails(chatId: chatId)
+        chatDetailsCoordinator.setOnBack { [weak self] in
+            self?.navigateBack()
         }
     }
     

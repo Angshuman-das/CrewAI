@@ -16,7 +16,7 @@ public class HomeCoordinator {
         self.onChatSelected = action
     }
     
-    public func start() -> AnyView {
+    public func start() -> some View {
         let dataManager = HomeDataManager()
         let viewModel = HomeViewModel(dataManager: dataManager)
         
@@ -28,6 +28,6 @@ public class HomeCoordinator {
             self?.onChatSelected?(chatId)
         }
         
-        return AnyView(HomeView(viewModel: viewModel))
+        return HomeView(viewModel: viewModel)
     }
 }

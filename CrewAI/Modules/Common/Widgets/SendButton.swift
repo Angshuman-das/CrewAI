@@ -25,3 +25,17 @@ public struct SendButton: View {
         .disabled(isDisabled)
     }
 }
+
+#Preview("Enabled") {
+    SendButton(isDisabled: false) {
+        print("Send tapped")
+    }
+    .padding()
+}
+
+#Preview("Disabled") {
+    SendButton(isDisabled: true) {
+        print("Send tapped")
+    }
+    .padding()
+}

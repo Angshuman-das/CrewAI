@@ -85,3 +85,27 @@ public struct EmptyStateView: View {
         .environmentObject(theme)
         .preferredColorScheme(theme.isDarkMode ? .dark : .light)
 }
+
+#Preview("With Action") {
+    @Previewable @StateObject var theme = AppTheme.shared
+    EmptyStateView(
+        icon: "bubble.left.and.bubble.right",
+        title: "No Conversations",
+        subtitle: "Start a new chat to begin",
+        actionTitle: "New Chat",
+        action: { print("Action tapped") }
+    )
+    .environmentObject(theme)
+    .preferredColorScheme(theme.isDarkMode ? .dark : .light)
+}
+
+#Preview("Without Action") {
+    @Previewable @StateObject var theme = AppTheme.shared
+    EmptyStateView(
+        icon: "tray",
+        title: "No Items",
+        subtitle: "Nothing to display here"
+    )
+    .environmentObject(theme)
+    .preferredColorScheme(theme.isDarkMode ? .dark : .light)
+}

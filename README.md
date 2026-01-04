@@ -2,6 +2,23 @@
 
 A modern, modular iOS chat application built with SwiftUI and SwiftData, featuring an AI agent conversation interface with offline-first architecture.
 
+<img width="180" height="390" alt="Simulator Screenshot - iPhone 16e - 2026-01-04 at 13 41 50" src="https://github.com/user-attachments/assets/d795b223-50df-4f57-94e2-96a83c7145bf" />
+<img width="180" height="390" alt="Simulator Screenshot - iPhone 16e - 2026-01-04 at 13 32 21" src="https://github.com/user-attachments/assets/637a939d-ae86-4681-994c-6f5bdbe5193b" />
+<img width="180" height="390" alt="Simulator Screenshot - iPhone 16e - 2026-01-04 at 13 33 41" src="https://github.com/user-attachments/assets/6ed4efc0-494a-41f3-927c-53701fbb0621" />
+<img width="180" height="390" alt="Simulator Screenshot - iPhone 16e - 2026-01-04 at 13 32 29" src="https://github.com/user-attachments/assets/2609d075-5c6d-42a4-80c4-4bbd866064f2" />
+
+
+<img
+  src="https://github.com/user-attachments/assets/12d28930-f589-4428-a25d-2b9694f16bdd"
+  width="180"
+  height="390"
+/>
+<img
+  src="https://github.com/user-attachments/assets/c19c8ff7-4641-4443-b91d-c7a959d060ec"
+  width="180"
+  height="390"
+/>
+
 ## 🚀 Setup
 
 1. Clone the repository
@@ -9,9 +26,24 @@ A modern, modular iOS chat application built with SwiftUI and SwiftData, featuri
 3. Select your target device/simulator
 4. Press `⌘ + R` to build and run
 
-**Requirements:** iOS 17.0+, Xcode 15.0+
+**Requirements:** iOS 26.0+
 
 ---
+
+## 🔑 Features
+
+- ✅ **Offline-First Architecture** - Works without internet connection
+- ✅ **AI Chat Simulation** - Debounced responses with typing indicator
+- ✅ **Full-Screen Image Viewer** - Pinch-to-zoom, pan, and double-tap gestures
+- ✅ **Smart Timestamps** - "Just now", "5m ago", "Yesterday" formatting
+- ✅ **Editable Chat Titles** - Tap to rename conversations
+- ✅ **Dark Mode Support** - Automatic theme switching
+- ✅ **Swipe-to-Delete** - With confirmation alert
+- ✅ **Empty States** - User-friendly placeholder screens
+- ✅ **Keyboard Management** - Dismiss on tap outside
+
+---
+
 
 ## 🏗️ Architecture Overview
 
@@ -152,21 +184,6 @@ Adding new features or modules follows the same pattern:
 2. Define public protocols
 3. Implement internal components
 4. Connect via coordinator callbacks
-
----
-
-## 🔑 Key Features
-
-- ✅ **Offline-First Architecture** - Works without internet connection
-- ✅ **AI Chat Simulation** - Debounced responses with typing indicator
-- ✅ **Image Handling** - Camera/photo library integration with thumbnails
-- ✅ **Full-Screen Image Viewer** - Pinch-to-zoom, pan, and double-tap gestures
-- ✅ **Smart Timestamps** - "Just now", "5m ago", "Yesterday" formatting
-- ✅ **Editable Chat Titles** - Tap to rename conversations
-- ✅ **Dark Mode Support** - Automatic theme switching
-- ✅ **Swipe-to-Delete** - With confirmation alert
-- ✅ **Empty States** - User-friendly placeholder screens
-- ✅ **Keyboard Management** - Dismiss on tap outside
 
 ---
 

@@ -33,6 +33,8 @@ A modern, modular iOS chat application built with SwiftUI and SwiftData, featuri
 ## 🔑 Features
 
 - ✅ **Offline-First Architecture** - Works without internet connection
+- ✅ **Debounce chat** - If multiple messages are typed quickly (4–5 messages), the AI waits for 2.5 seconds before responding.
+- ✅ **SwiftData Support** - Modern local storage for CRUD operation
 - ✅ **AI Chat Simulation** - Debounced responses with typing indicator
 - ✅ **Full-Screen Image Viewer** - Pinch-to-zoom, pan, and double-tap gestures
 - ✅ **Smart Timestamps** - "Just now", "5m ago", "Yesterday" formatting
